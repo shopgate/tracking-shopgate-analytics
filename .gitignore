@@ -57,3 +57,15 @@ typings/
 # dotenv environment variables file
 .env
 
+.tmp
+.idea
+.vscode
+node_modules
+dist
+
+.DS_Store
+.DS_Store?
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
