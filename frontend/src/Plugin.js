@@ -15,11 +15,11 @@ import initSDK from './sdk';
  */
 class ShopgateAnalytics extends SgTrackingPlugin {
   /**
-   * [constructor description]
+   * Initializes the tracking plugin.
    * @param {Object} options The options passed to the plugin.
    * @param {string} options.stage The stage / environment the plugin is running.
-   * @param {number} options.shopNumber The shop number.
-   * @param {number} [options.userId] The internal user id.
+   * @param {string} options.shopNumber The shop number.
+   * @param {string} [options.userId] The internal user id.
    * @param {string} [options.pushToken] The push token of the device.
    * @param {Object} [options.device] The device information.
    * @param {string} [options.device.access] The access type.
@@ -94,7 +94,6 @@ class ShopgateAnalytics extends SgTrackingPlugin {
     });
 
     this.register.purchase((data, rawData) => {
-      console.error(rawData);
       const sdkData = {
         orderNumber: rawData.order.number,
         shipping: {
