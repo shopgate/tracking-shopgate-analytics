@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2017, Shopgate, Inc. All rights reserved.
+ *
+ * This source code is licensed under the Apache 2.0 license found in the
+ * LICENSE file in the root directory of this source tree.
+*/
+
 export const pageViewData = {
   product: {
     uid: 'SG12',
@@ -19,9 +26,9 @@ export const pageViewData = {
     tags: [],
   },
   page: {
-    referrer: 'http://testshop.rene-eichhorn.localdev.cc/',
+    referrer: 'http://google.de/',
     name: 'productDetails',
-    link: 'http://testshop.rene-eichhorn.localdev.cc/php/shopgate/item/53473132',
+    link: 'http://google.de/php/shopgate/item/53473132',
     title: 'Produkt mit 0% MwSt. - §25a - Offizieller Shopgate Testshop DEV',
   },
 };
