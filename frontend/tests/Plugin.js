@@ -15,7 +15,7 @@ import './mocks';
 import SgTrackingCore from '@shopgate/tracking-core/core/Core';
 /* eslint-enable import/first */
 import Plugin from '../src/Plugin';
-import { pageViewData, addToCartData } from './mockData';
+import { pageViewData, addToCartData, orderData } from './mockData';
 
 chai.use(sinonChai);
 
@@ -38,7 +38,7 @@ describe('ShopgateAnalyticsPlugin', () => {
     });
 
     /* eslint-disable no-new */
-    new Plugin({ stage: 'development', shopNumber: '1234', device: {} });
+    new Plugin({ stage: 'development', shopNumber: '1234', access: 'App' });
     /* eslint-enable no-new */
 
     SgTrackingCore.registerFinished();
@@ -51,6 +51,19 @@ describe('ShopgateAnalyticsPlugin', () => {
   });
 
   it('should have initialized the sdk', () => {
+    expect(sgAnalyticsSpy).to.have.been.calledWith('setConfig', {
+      channel: 'app',
+      pushToken: undefined,
+      sgUserId: undefined,
+      shopNumber: '1234',
+    });
+  });
+
+  it('should use webapp channel for mobile website', () => {
+    /* eslint-disable no-new */
+    new Plugin({ stage: 'development', shopNumber: '1234', access: 'Web' });
+    /* eslint-enable no-new */
+
     expect(sgAnalyticsSpy).to.have.been.calledWith('setConfig', {
       channel: 'webapp',
       pushToken: undefined,
@@ -97,9 +110,10 @@ describe('ShopgateAnalyticsPlugin', () => {
   });
 
   it('should build event data for checkoutCompleted correctly', () => {
-    SgTrackingCore.track.purchase(addToCartData);
+    SgTrackingCore.track.purchase(orderData);
 
     expect(sgAnalyticsSpy).to.have.been.calledWith('track', 'checkoutCompleted', {
+      orderNumber: '1234',
       products: [{
         number: 'SG12',
         name: 'Produkt mit 0% MwSt. - §25a',
@@ -111,6 +125,18 @@ describe('ShopgateAnalyticsPlugin', () => {
         },
         quantity: 1,
       }],
+      totalPrice: '708.11',
+      totalStrikePrice: '805.31',
+      shipping: {
+        price: '3.00',
+        type: 'POLISHPOST',
+      },
+      coupons: [{
+        code: 'TEST',
+        savings: '10.00',
+        currency: 'EUR',
+      }],
+      currency: 'EUR',
     });
   });
 });
