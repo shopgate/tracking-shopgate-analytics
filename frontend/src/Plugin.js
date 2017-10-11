@@ -24,7 +24,7 @@ class ShopgateAnalytics extends SgTrackingPlugin {
    * @param {Object} [options.device] The device information.
    * @param {string} [options.device.access] The access type.
    */
-  constructor({ stage, shopNumber, userId, pushToken, device }) {
+  constructor({ stage, shopNumber, userId, pushToken, access }) {
     super('sgAnalytics', { stage });
 
     initSDK(stage);
@@ -33,7 +33,7 @@ class ShopgateAnalytics extends SgTrackingPlugin {
       shopNumber,
       pushToken,
       sgUserId: userId,
-      channel: device.access === 'App' ? 'app' : 'webapp',
+      channel: access === 'App' ? 'app' : 'webapp',
     });
 
     this.registerEvents();
