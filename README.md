@@ -1,5 +1,10 @@
 # Tracking Plugin for Shopgate Analytics
 
+[![Travis CI Build](https://travis-ci.org/shopgate/tracking-shopgate-analytics.svg?branch=master)](https://travis-ci.org/shopgate/tracking-shopgate-analytics)
+[![GitHub release](https://img.shields.io/github/release/shopgate/tracking-shopgate-analytics.svg)]()
+[![Coverage Status](https://coveralls.io/repos/github/shopgate/tracking-shopgate-analytics/badge.svg?branch=master)](https://coveralls.io/github/shopgate/tracking-shopgate-analytics?branch=master)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 Tracking Plugin for Shopgate Analytics
 
 ## About Shopgate

@@ -1,0 +1,20 @@
+{
+  "version": "1.0.0",
+  "id": "@shopgate/tracking-shopgate-analytics",
+  "components": [
+    {
+      "id": "init",
+      "path": "frontend/src/index.js",
+      "type": "tracking"
+    }
+  ],
+  "configuration": {
+    "stage": {
+      "type": "static",
+      "destination": "frontend",
+      "params": {
+        "value": "%(targetStage)s"
+      }
+    }
+  }
+}
