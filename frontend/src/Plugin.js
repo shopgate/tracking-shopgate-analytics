@@ -56,7 +56,7 @@ class ShopgateAnalytics extends SgTrackingPlugin {
     identifiers: {
       ean: product.identifiers.ean,
     },
-  })
+  });
 
   /**
    * Registers all event handlers.
