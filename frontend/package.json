@@ -1,6 +1,6 @@
 {
   "name": "@shopgate/tracking-shopgate-analytics",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Tracking plugin for shopgate analytics",
   "main": "index.js",
   "dependencies": {
