@@ -62,6 +62,7 @@ typings/
 .vscode
 node_modules
 dist
+frontend/package-lock.json
 
 .DS_Store
 .DS_Store?

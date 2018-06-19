@@ -1,12 +1,4 @@
-/**
- * Copyright (c) 2017, Shopgate, Inc. All rights reserved.
- *
- * This source code is licensed under the Apache 2.0 license found in the
- * LICENSE file in the root directory of this source tree.
-*/
-
 /* global sgAnalytics */
-
 import SgTrackingPlugin from '@shopgate/tracking-core/plugins/Base';
 import initSDK from './sdk';
 
@@ -27,15 +19,37 @@ class ShopgateAnalytics extends SgTrackingPlugin {
     super('sgAnalytics', { stage });
 
     initSDK(stage);
+    this.config = {};
 
-    sgAnalytics('setConfig', {
+    this.updateConfig({
       shopNumber,
       pushToken,
-      sgUserId: userId,
+      sgUserId: userId ? `${userId}` : userId,
       channel: access === 'Web' ? 'webapp' : 'app',
     });
 
     this.registerEvents();
+  }
+
+  /**
+   * Updates the config
+   * @param {Object} config Config
+   */
+  updateConfig(config) {
+    this.config = {
+      ...this.config,
+      ...config,
+    };
+
+    sgAnalytics('setConfig', this.config);
+  }
+
+  /**
+   * Updates the the userId in the config
+   * @param {number|string} userId Id of the current logged in user
+   */
+  setUserId(userId) {
+    this.updateConfig({ userId: `${userId}` });
   }
 
   /**
@@ -54,7 +68,7 @@ class ShopgateAnalytics extends SgTrackingPlugin {
       product.amount.gross ||
       product.amount.net,
     identifiers: {
-      ean: product.identifiers.ean,
+      ean: product.identifiers ? product.identifiers.ean : '',
     },
   });
 
@@ -93,13 +107,15 @@ class ShopgateAnalytics extends SgTrackingPlugin {
     });
 
     this.register.purchase((data, rawData) => {
+      const coupons = rawData.order.coupons || [];
+
       const sdkData = {
         orderNumber: rawData.order.number,
         shipping: {
           type: rawData.order.shipping.name,
           price: rawData.order.shipping.amount.gross,
         },
-        coupons: rawData.order.coupons.map(coupon => ({
+        coupons: coupons.map(coupon => ({
           code: coupon.code,
           savings: coupon.amount.gross,
           currency: coupon.amount.currency,

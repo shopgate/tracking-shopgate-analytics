@@ -1,10 +1,6 @@
-/**
- * Copyright (c) 2017, Shopgate, Inc. All rights reserved.
- *
- * This source code is licensed under the Apache 2.0 license found in the
- * LICENSE file in the root directory of this source tree.
-*/
-
+import { shopNumber } from '@shopgate/pwa-common/helpers/config';
+import { getUserData } from '@shopgate/pwa-common/selectors/user';
+import { userDataReceived$ } from '@shopgate/pwa-common/streams/user';
 import Plugin from './Plugin';
 import config from '../config';
 
@@ -14,8 +10,24 @@ import config from '../config';
 * @return {Object}
 */
 export default function init(options) {
-  return new Plugin({
-    ...config,
+  const { state, subscribe } = options;
+
+  const userId = getUserData(state).id || null;
+  const stage = config.stage === 'sandbox' ? 'development' : 'production';
+
+  const plugin = new Plugin({
     ...options,
+    stage,
+    shopNumber,
+    userId,
+    access: 'App',
   });
+
+  subscribe(userDataReceived$, ({ action }) => {
+    if (action.user && action.user.id) {
+      plugin.setUserId(action.user.id);
+    }
+  });
+
+  return plugin;
 }
