@@ -43,6 +43,19 @@ describe('ShopgateAnalyticsPlugin', () => {
     });
   });
 
+  it('should update the userId', () => {
+    const plugin = new Plugin({ stage: 'development', shopNumber: '1234', access: 'App' });
+
+    plugin.setUserId(999999);
+
+    expect(sgAnalyticsSpy).to.have.been.calledWith('setConfig', {
+      channel: 'app',
+      pushToken: undefined,
+      sgUserId: '999999',
+      shopNumber: '1234',
+    });
+  });
+
   it('should have initialized the sdk', () => {
     expect(sgAnalyticsSpy).to.have.been.calledWith('setConfig', {
       channel: 'app',

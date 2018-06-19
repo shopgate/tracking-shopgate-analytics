@@ -49,7 +49,7 @@ class ShopgateAnalytics extends SgTrackingPlugin {
    * @param {number|string} userId Id of the current logged in user
    */
   setUserId(userId) {
-    this.updateConfig({ userId: `${userId}` });
+    this.updateConfig({ sgUserId: `${userId}` });
   }
 
   /**
