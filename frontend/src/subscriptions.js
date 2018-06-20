@@ -1,5 +1,6 @@
 import { userDataReceived$ } from '@shopgate/pwa-common/streams/user';
 import emitter from './emitter';
+import { EVENT_UPDATE_USER } from './constants';
 
 /**
  * SgAnalyticsSubscriptions subscriptions.
@@ -8,7 +9,7 @@ import emitter from './emitter';
 const sgAnalyticsSubscriptions = (subscribe) => {
   subscribe(userDataReceived$, ({ action }) => {
     if (action.user && action.user.id) {
-      emitter.emit('updateUserId', action.user.id);
+      emitter.emit(EVENT_UPDATE_USER, action.user.id);
     }
   });
 };
