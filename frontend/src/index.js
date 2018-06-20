@@ -1,6 +1,7 @@
 import { shopNumber } from '@shopgate/pwa-common/helpers/config';
 import { getUserData } from '@shopgate/pwa-common/selectors/user';
-import { userDataReceived$ } from '@shopgate/pwa-common/streams/user';
+import emitter from './emitter';
+import { EVENT_UPDATE_USER } from './constants';
 import Plugin from './Plugin';
 import config from '../config';
 
@@ -10,23 +11,20 @@ import config from '../config';
 * @return {Object}
 */
 export default function init(options) {
-  const { state, subscribe } = options;
+  const { state } = options;
 
-  const userId = getUserData(state).id || null;
   const stage = config.stage === 'sandbox' ? 'development' : 'production';
 
   const plugin = new Plugin({
     ...options,
     stage,
     shopNumber,
-    userId,
+    userId: getUserData(state).id || null,
     access: 'App',
   });
 
-  subscribe(userDataReceived$, ({ action }) => {
-    if (action.user && action.user.id) {
-      plugin.setUserId(action.user.id);
-    }
+  emitter.on(EVENT_UPDATE_USER, (userId) => {
+    plugin.setUserId(userId);
   });
 
   return plugin;

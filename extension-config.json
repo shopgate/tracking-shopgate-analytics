@@ -6,6 +6,11 @@
       "id": "init",
       "path": "frontend/src/index.js",
       "type": "tracking"
+    },
+    {
+      "id": "Subscribers",
+      "path": "frontend/src/subscriptions.js",
+      "type": "subscribers"
     }
   ],
   "configuration": {
