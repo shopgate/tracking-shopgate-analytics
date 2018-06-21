@@ -1,10 +1,3 @@
-/**
- * Copyright (c) 2017, Shopgate, Inc. All rights reserved.
- *
- * This source code is licensed under the Apache 2.0 license found in the
- * LICENSE file in the root directory of this source tree.
-*/
-
 import 'mocha';
 import chai, { expect } from 'chai';
 import sinon from 'sinon';
@@ -47,6 +40,19 @@ describe('ShopgateAnalyticsPlugin', () => {
   it('should register specified events with core', () => {
     expectedSubscriptions.forEach((eventName) => {
       expect(SgTrackingCore.register[eventName].called).equals(true);
+    });
+  });
+
+  it('should update the userId', () => {
+    const plugin = new Plugin({ stage: 'development', shopNumber: '1234', access: 'App' });
+
+    plugin.setUserId(999999);
+
+    expect(sgAnalyticsSpy).to.have.been.calledWith('setConfig', {
+      channel: 'app',
+      pushToken: undefined,
+      sgUserId: '999999',
+      shopNumber: '1234',
     });
   });
 
