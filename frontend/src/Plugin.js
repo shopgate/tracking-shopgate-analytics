@@ -139,6 +139,10 @@ class ShopgateAnalytics extends SgTrackingPlugin {
         currency: rawData.order.amount.currency,
       };
 
+      if (data.meta) {
+        sdkData.meta = data.meta;
+      }
+
       sgAnalytics('track', 'checkoutCompleted', sdkData);
     });
   }
