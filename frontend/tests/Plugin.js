@@ -115,10 +115,8 @@ describe('ShopgateAnalyticsPlugin', () => {
     });
   });
 
-  it('should build event data for checkoutCompleted correctly', () => {
-    SgTrackingCore.track.purchase(orderData);
-
-    expect(sgAnalyticsSpy).to.have.been.calledWith('track', 'checkoutCompleted', {
+  describe('checkoutCompleted', () => {
+    const trackPayload = {
       orderNumber: '1234',
       products: [{
         number: 'SG12',
@@ -143,6 +141,32 @@ describe('ShopgateAnalyticsPlugin', () => {
         currency: 'EUR',
       }],
       currency: 'EUR',
+    };
+
+    it('should build event data correctly', () => {
+      SgTrackingCore.track.purchase(orderData);
+
+      expect(sgAnalyticsSpy).to.have.been.calledWith('track', 'checkoutCompleted', trackPayload);
+    });
+
+    it('should build event data correctly when meta data is present', () => {
+      const meta = {
+        meta: {
+          type: 'app_legacy',
+        },
+      };
+
+      const orderDataWithMeta = {
+        ...orderData,
+        ...meta,
+      };
+
+      SgTrackingCore.track.purchase(orderDataWithMeta);
+
+      expect(sgAnalyticsSpy).to.have.been.calledWith('track', 'checkoutCompleted', {
+        ...trackPayload,
+        ...meta,
+      });
     });
   });
 });
