@@ -1,5 +1,6 @@
 /* global sgAnalytics */
 import SgTrackingPlugin from '@shopgate/tracking-core/plugins/Base';
+import HttpRequest from '@shopgate/pwa-core/classes/HttpRequest';
 import initSDK from './sdk';
 
 /**
@@ -143,6 +144,8 @@ class ShopgateAnalytics extends SgTrackingPlugin {
         sdkData.meta = rawData.meta;
       }
 
+      const checkoutCompletedEvent = new HttpRequest();
+      checkoutCompletedEvent.setMethod('POST').setPayload(sdkData).dispatch();
       sgAnalytics('track', 'checkoutCompleted', sdkData);
     });
   }
