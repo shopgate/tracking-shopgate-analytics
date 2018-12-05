@@ -144,8 +144,8 @@ class ShopgateAnalytics extends SgTrackingPlugin {
         sdkData.meta = rawData.meta;
       }
 
-      const checkoutCompletedEvent = new HttpRequest();
-      checkoutCompletedEvent.setMethod('POST').setPayload(sdkData).dispatch();
+      const checkoutCompletedCmd = new HttpRequest('https://tracking.shopgate.services/v1/event');
+      checkoutCompletedCmd.setMethod('POST').setPayload(sdkData).setTimeout(2000).dispatch();
       sgAnalytics('track', 'checkoutCompleted', sdkData);
     });
   }
