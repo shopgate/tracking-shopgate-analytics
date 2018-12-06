@@ -144,8 +144,8 @@ class ShopgateAnalytics extends SgTrackingPlugin {
       if (rawData.meta) {
         sdkData.meta = rawData.meta;
       }
+
       const commandUrl = this.stage === 'development' ? 'https://tracking.shopgatedev.services/v1/event' : 'https://tracking.shopgate.services/v1/event';
-      const checkoutCompletedCmd = new HttpRequest(commandUrl);
       const commandData = {
         channel: 'app',
         data: sdkData,
@@ -157,11 +157,14 @@ class ShopgateAnalytics extends SgTrackingPlugin {
         shopNumber: this.shopNumber,
         type: 'checkoutCompletedCmd',
       };
-      checkoutCompletedCmd
+
+      // Temporarily to investigate the missing order issue
+      new HttpRequest(commandUrl)
         .setMethod('POST')
         .setContentType('application/json')
         .setPayload(commandData)
         .dispatch();
+
       sgAnalytics('track', 'checkoutCompleted', sdkData);
     });
   }
