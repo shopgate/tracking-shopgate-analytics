@@ -36,8 +36,9 @@ class ShopgateAnalytics extends SgTrackingPlugin {
     });
 
     this.registerEvents();
+    this.shopNumber = shopNumber;
+    this.stage = stage;
   }
-
   /**
    * Updates the config
    * @param {Object} config Config
@@ -143,9 +144,24 @@ class ShopgateAnalytics extends SgTrackingPlugin {
       if (rawData.meta) {
         sdkData.meta = rawData.meta;
       }
-
-      const checkoutCompletedCmd = new HttpRequest('https://tracking.shopgate.services/v1/event');
-      checkoutCompletedCmd.setMethod('POST').setPayload(sdkData).setTimeout(2000).dispatch();
+      const commandUrl = this.stage === 'development' ? 'https://tracking.shopgatedev.services/v1/event' : 'https://tracking.shopgate.services/v1/event';
+      const checkoutCompletedCmd = new HttpRequest(commandUrl);
+      const commandData = {
+        channel: 'app',
+        data: sdkData,
+        metadata: {
+          sgUserId: '',
+          source: 'app_PWA',
+          UUID: '',
+        },
+        shopNumber: this.shopNumber,
+        type: 'checkoutCompletedCmd',
+      };
+      checkoutCompletedCmd
+        .setMethod('POST')
+        .setContentType('application/json')
+        .setPayload(commandData)
+        .dispatch();
       sgAnalytics('track', 'checkoutCompleted', sdkData);
     });
   }
