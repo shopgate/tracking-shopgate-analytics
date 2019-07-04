@@ -5,7 +5,8 @@
   "main": "index.js",
   "dependencies": {
     "@shopgate/pwa-core": "^5.4.1",
-    "@shopgate/tracking-core": "^5.4.1"
+    "@shopgate/tracking-core": "^5.4.1",
+    "snyk": "^1.189.0"
   },
   "devDependencies": {
     "@shopgate/eslint-config": "^5.4.1",
@@ -23,7 +24,9 @@
     "sinon-chai": "^2.14.0"
   },
   "scripts": {
-    "test": "mocha --compilers js:babel-core/register tests/*.js"
+    "test": "mocha --compilers js:babel-core/register tests/*.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -40,5 +43,6 @@
   "bugs": {
     "url": "https://github.com/shopgate/tracking-shopgate-analytics/issues"
   },
-  "homepage": "https://github.com/shopgate/tracking-shopgate-analytics#readme"
+  "homepage": "https://github.com/shopgate/tracking-shopgate-analytics#readme",
+  "snyk": true
 }
