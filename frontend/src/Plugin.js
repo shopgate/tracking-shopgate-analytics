@@ -59,7 +59,7 @@ class ShopgateAnalytics extends SgTrackingPlugin {
   }
 
   /**
-   * Formats product data to the analaytics format.
+   * Formats product data to the analytics format.
    * @param {Object} product Raw product data.
    * @return {Object}
    */
@@ -68,7 +68,7 @@ class ShopgateAnalytics extends SgTrackingPlugin {
     name: product.name,
     currency: product.amount.currency,
     price: product.amount.displayPrice ||
-     product.amount.grosss ||
+     product.amount.gross ||
      product.amount.net,
     strikePrice: product.amount.displayPriceStriked ||
       product.amount.gross ||
@@ -80,9 +80,6 @@ class ShopgateAnalytics extends SgTrackingPlugin {
 
   /**
    * Registers all event handlers.
-   *
-   * Event documentation:
-   * https://wiki.shopgate.guru/display/TEAMC2/Tracking+Service+Events
    */
   registerEvents() {
     this.register.pageview((data, rawData) => {
