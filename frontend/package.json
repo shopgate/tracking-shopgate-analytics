@@ -3,27 +3,26 @@
   "version": "1.1.0",
   "description": "Tracking plugin for shopgate analytics",
   "main": "index.js",
-  "dependencies": {
-    "@shopgate/pwa-core": "^5.4.1",
-    "@shopgate/tracking-core": "^5.4.1"
-  },
   "devDependencies": {
     "@shopgate/eslint-config": "^5.4.1",
     "@shopgate/pwa-common": "^5.4.1",
+    "@shopgate/pwa-core": "^5.4.1",
+    "@shopgate/tracking-core": "^5.4.1",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.0",
-    "chai": "^4.1.2",
     "eslint": "^4.19.1",
-    "jsdom": "^11.3.0",
-    "mocha": "^4.0.1",
-    "sinon": "^4.0.1",
-    "sinon-chai": "^2.14.0"
+    "jest": "^23.6.0"
+  },
+  "peerDependencies": {
+    "@shopgate/pwa-core": ">=5.4.1",
+    "@shopgate/tracking-core": ">=5.4.1"
   },
   "scripts": {
-    "test": "mocha --compilers js:babel-core/register tests/*.js"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "repository": {
     "type": "git",
@@ -40,5 +39,6 @@
   "bugs": {
     "url": "https://github.com/shopgate/tracking-shopgate-analytics/issues"
   },
-  "homepage": "https://github.com/shopgate/tracking-shopgate-analytics#readme"
+  "homepage": "https://github.com/shopgate/tracking-shopgate-analytics#readme",
+  "dependencies": {}
 }

@@ -23,6 +23,7 @@ export const pageViewData = {
     name: 'productDetails',
     link: 'http://google.de/php/shopgate/item/53473132',
     title: 'Produkt mit 0% MwSt. - §25a - Offizieller Shopgate Testshop DEV',
+    merchantUrl: 'item/53473132',
   },
 };
 
