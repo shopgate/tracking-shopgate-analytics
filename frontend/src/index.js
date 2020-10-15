@@ -13,7 +13,10 @@ import config from '../config';
 export default function init(options) {
   const { state } = options;
 
-  const stage = config.stage === 'sandbox' ? 'development' : 'production';
+  let stage = config.stage === 'sandbox' ? 'development' : 'production';
+  if (config.overrideStage) {
+    stage = config.overrideStage;
+  }
 
   const plugin = new Plugin({
     ...options,

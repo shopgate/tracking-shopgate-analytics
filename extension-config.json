@@ -1,5 +1,5 @@
 {
-  "version": "1.2.0",
+  "version": "1.2.1",
   "id": "@shopgate/tracking-shopgate-analytics",
   "components": [
     {
@@ -19,6 +19,15 @@
       "destination": "frontend",
       "params": {
         "value": "%(targetStage)s"
+      }
+    },
+    "overrideStage": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": null,
+      "params": {
+        "type": "json",
+        "label": "The target stage for all tracking requests"
       }
     }
   }
