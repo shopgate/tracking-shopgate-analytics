@@ -1,5 +1,6 @@
 /* global sgAnalytics */
 import SgTrackingPlugin from '@shopgate/tracking-core/plugins/Base';
+import HttpRequest from '@shopgate/pwa-core/classes/HttpRequest';
 import initSDK from './sdk';
 
 /**
@@ -35,8 +36,9 @@ class ShopgateAnalytics extends SgTrackingPlugin {
     });
 
     this.registerEvents();
+    this.shopNumber = shopNumber;
+    this.stage = stage;
   }
-
   /**
    * Updates the config
    * @param {Object} config Config
@@ -139,6 +141,26 @@ class ShopgateAnalytics extends SgTrackingPlugin {
       if (rawData.meta) {
         sdkData.meta = rawData.meta;
       }
+
+      const commandUrl = this.stage === 'development' ? 'https://tracking.shopgatedev.services/v1/event' : 'https://tracking.shopgate.services/v1/event';
+      const commandData = {
+        channel: 'app',
+        data: sdkData,
+        metadata: {
+          sgUserId: '',
+          source: 'app_PWA',
+          UUID: '',
+        },
+        shopNumber: this.shopNumber,
+        type: 'checkoutCompletedCmd',
+      };
+
+      // Temporarily to investigate the missing order issue
+      new HttpRequest(commandUrl)
+        .setMethod('POST')
+        .setContentType('application/json')
+        .setPayload(commandData)
+        .dispatch();
 
       sgAnalytics('track', 'checkoutCompleted', sdkData);
     });
