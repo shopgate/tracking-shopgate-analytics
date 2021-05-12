@@ -82,7 +82,7 @@ class ShopgateAnalytics extends SgTrackingPlugin {
    * Registers all event handlers.
    */
   registerEvents() {
-    this.register.pageview((data, rawData) => {
+    this.register.pageview((data, rawData, _, state) => {
       let sdkData = {
         url: data.page.merchantUrl,
         type: rawData.page.name,
@@ -95,24 +95,48 @@ class ShopgateAnalytics extends SgTrackingPlugin {
         };
       }
 
+      if (state && state.settings && state.settings.shopSettings) {
+        const { stage, merchantCode } = state.settings.shopSettings;
+
+        sdkData = {
+          ...sdkData,
+          meta: {
+            stage,
+            merchantCode,
+          },
+        };
+      }
+
       sgAnalytics('track', 'pageViewed', sdkData);
     });
 
-    this.register.addToCart((data, rawData) => {
-      const sdkData = {
+    this.register.addToCart((data, rawData, _, state) => {
+      let sdkData = {
         products: rawData.products.map(product => ({
           ...this.formatProductData(product),
           quantity: product.quantity,
         })),
       };
 
+      if (state && state.settings && state.settings.shopSettings) {
+        const { stage, merchantCode } = state.settings.shopSettings;
+
+        sdkData = {
+          ...sdkData,
+          meta: {
+            stage,
+            merchantCode,
+          },
+        };
+      }
+
       sgAnalytics('track', 'productAddedToCart', sdkData);
     });
 
-    this.register.purchase((data, rawData) => {
+    this.register.purchase((data, rawData, _, state) => {
       const coupons = rawData.order.coupons || [];
 
-      const sdkData = {
+      let sdkData = {
         orderNumber: rawData.order.number,
         shipping: {
           type: rawData.order.shipping.name,
@@ -134,10 +158,31 @@ class ShopgateAnalytics extends SgTrackingPlugin {
           rawData.order.amount.gross ||
           rawData.order.amount.net,
         currency: rawData.order.amount.currency,
+        meta: { },
       };
 
       if (rawData.meta) {
+        sdkData = {
+          ...sdkData,
+          meta: {
+            ...sdkData.meta,
+            ...rawData.meta,
+          },
+        };
         sdkData.meta = rawData.meta;
+      }
+
+      if (state && state.settings && state.settings.shopSettings) {
+        const { stage, merchantCode } = state.settings.shopSettings;
+
+        sdkData = {
+          ...sdkData,
+          meta: {
+            ...sdkData.meta,
+            stage,
+            merchantCode,
+          },
+        };
       }
 
       sgAnalytics('track', 'checkoutCompleted', sdkData);

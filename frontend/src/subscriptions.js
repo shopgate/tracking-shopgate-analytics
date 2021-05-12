@@ -4,7 +4,7 @@ import { EVENT_UPDATE_USER } from './constants';
 
 /**
  * SgAnalyticsSubscriptions subscriptions.
- * @param {function} subscribe Subscribe.
+ * @param {Function} subscribe Subscribe.
  */
 const sgAnalyticsSubscriptions = (subscribe) => {
   subscribe(userDataReceived$, ({ action }) => {
