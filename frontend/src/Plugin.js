@@ -11,14 +11,12 @@ class ShopgateAnalytics extends SgTrackingPlugin {
    * @param {Object} options The options passed to the plugin.
    * @param {string} options.stage The stage / environment the plugin is running.
    * @param {string} options.shopNumber The shop number.
-   * @param {string} [options.userId] The internal user id.
    * @param {string} [options.pushToken] The push token of the device.
    * @param {string} [options.access] The access type (App, Web).
    */
   constructor({
     stage,
     shopNumber,
-    userId,
     pushToken,
     access,
   }) {
@@ -30,7 +28,6 @@ class ShopgateAnalytics extends SgTrackingPlugin {
     this.updateConfig({
       shopNumber,
       pushToken,
-      sgUserId: userId ? `${userId}` : userId,
       channel: access === 'Web' ? 'webapp' : 'app',
     });
 
@@ -51,14 +48,6 @@ class ShopgateAnalytics extends SgTrackingPlugin {
   }
 
   /**
-   * Updates the the userId in the config
-   * @param {number|string} userId Id of the current logged in user
-   */
-  setUserId(userId) {
-    this.updateConfig({ sgUserId: `${userId}` });
-  }
-
-  /**
    * Formats product data to the analytics format.
    * @param {Object} product Raw product data.
    * @return {Object}
@@ -68,8 +57,8 @@ class ShopgateAnalytics extends SgTrackingPlugin {
     name: product.name,
     currency: product.amount.currency,
     price: product.amount.displayPrice ||
-     product.amount.gross ||
-     product.amount.net,
+    product.amount.gross ||
+    product.amount.net,
     strikePrice: product.amount.displayPriceStriked ||
       product.amount.gross ||
       product.amount.net,
