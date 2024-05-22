@@ -153,6 +153,7 @@ describe('ShopgateAnalyticsPlugin', () => {
         currency: 'EUR',
       }],
       currency: 'EUR',
+      meta: {},
     };
 
     it('should build event data correctly', () => {
