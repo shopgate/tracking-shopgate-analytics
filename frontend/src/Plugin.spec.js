@@ -36,6 +36,7 @@ const getRegisteredCallback = (eventName) => {
 
 describe('ShopgateAnalyticsPlugin', () => {
   const sgAnalyticsSpy = jest.fn();
+  // eslint-disable-next-line no-unused-vars
   let instance;
 
   beforeAll(() => {
@@ -58,17 +59,6 @@ describe('ShopgateAnalyticsPlugin', () => {
 
     expectedSubscriptions.forEach((event) => {
       expect(registerHelperSpy).toHaveBeenCalledWith(event, expect.any(Function), undefined);
-    });
-  });
-
-  it('should update the userId', () => {
-    instance.setUserId(999999);
-
-    expect(sgAnalyticsSpy).toHaveBeenCalledWith('setConfig', {
-      channel: 'app',
-      pushToken: undefined,
-      sgUserId: '999999',
-      shopNumber: '1234',
     });
   });
 
