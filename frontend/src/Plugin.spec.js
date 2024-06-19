@@ -66,7 +66,6 @@ describe('ShopgateAnalyticsPlugin', () => {
     expect(sgAnalyticsSpy).toHaveBeenCalledWith('setConfig', {
       channel: 'app',
       pushToken: undefined,
-      sgUserId: undefined,
       shopNumber: '1234',
     });
   });
@@ -77,7 +76,6 @@ describe('ShopgateAnalyticsPlugin', () => {
     expect(sgAnalyticsSpy).toHaveBeenCalledWith('setConfig', {
       channel: 'webapp',
       pushToken: undefined,
-      sgUserId: undefined,
       shopNumber: '1234',
     });
   });
