@@ -36,6 +36,7 @@ const getRegisteredCallback = (eventName) => {
 
 describe('ShopgateAnalyticsPlugin', () => {
   const sgAnalyticsSpy = jest.fn();
+  // eslint-disable-next-line no-unused-vars
   let instance;
 
   beforeAll(() => {
@@ -61,22 +62,10 @@ describe('ShopgateAnalyticsPlugin', () => {
     });
   });
 
-  it('should update the userId', () => {
-    instance.setUserId(999999);
-
-    expect(sgAnalyticsSpy).toHaveBeenCalledWith('setConfig', {
-      channel: 'app',
-      pushToken: undefined,
-      sgUserId: '999999',
-      shopNumber: '1234',
-    });
-  });
-
   it('should have initialized the sdk', () => {
     expect(sgAnalyticsSpy).toHaveBeenCalledWith('setConfig', {
       channel: 'app',
       pushToken: undefined,
-      sgUserId: undefined,
       shopNumber: '1234',
     });
   });
@@ -87,7 +76,6 @@ describe('ShopgateAnalyticsPlugin', () => {
     expect(sgAnalyticsSpy).toHaveBeenCalledWith('setConfig', {
       channel: 'webapp',
       pushToken: undefined,
-      sgUserId: undefined,
       shopNumber: '1234',
     });
   });
@@ -153,6 +141,7 @@ describe('ShopgateAnalyticsPlugin', () => {
         currency: 'EUR',
       }],
       currency: 'EUR',
+      meta: {},
     };
 
     it('should build event data correctly', () => {
