@@ -1,6 +1,7 @@
 /* global sgAnalytics */
 import SgTrackingPlugin from '@shopgate/tracking-core/plugins/Base';
 import initSDK from './sdk';
+import { debugEnabled } from '../config';
 
 const SUPPORTED_OPT_IN_EVENTS = [
   'softPushOptInShown',
@@ -63,6 +64,23 @@ class ShopgateAnalytics extends SgTrackingPlugin {
   }
 
   /**
+   * Sends an event to shopgate analytics
+   * @param {string} eventName Event name
+   * @param {Object} eventPayload  Event payload
+   */
+  trackSgAnalyticsEvent = (eventName, eventPayload) => {
+    if (debugEnabled) {
+      console.log('%c SgAnalytics', 'color: #8e44ad', 'Event Sent', {
+        name: eventName,
+        payload: eventPayload,
+        config: this.config,
+      });
+    }
+
+    sgAnalytics('track', eventName, eventPayload);
+  };
+
+  /**
    * Formats product data to the analytics format.
    * @param {Object} product Raw product data.
    * @return {Object}
@@ -111,7 +129,7 @@ class ShopgateAnalytics extends SgTrackingPlugin {
         };
       }
 
-      sgAnalytics('track', 'pageViewed', sdkData);
+      this.trackSgAnalyticsEvent('pageViewed', sdkData);
     });
 
     this.register.addToCart((data, rawData, _, state) => {
@@ -134,7 +152,7 @@ class ShopgateAnalytics extends SgTrackingPlugin {
         };
       }
 
-      sgAnalytics('track', 'productAddedToCart', sdkData);
+      this.trackSgAnalyticsEvent('productAddedToCart', sdkData);
     });
 
     this.register.purchase((data, rawData, _, state) => {
@@ -189,7 +207,7 @@ class ShopgateAnalytics extends SgTrackingPlugin {
         };
       }
 
-      sgAnalytics('track', 'checkoutCompleted', sdkData);
+      this.trackSgAnalyticsEvent('checkoutCompleted', sdkData);
     });
 
     this.register.customEvent((data, rawData, _, state) => {
@@ -216,7 +234,7 @@ class ShopgateAnalytics extends SgTrackingPlugin {
         };
       }
 
-      sgAnalytics('track', eventName, sdkData);
+      this.trackSgAnalyticsEvent(eventName, sdkData);
     });
   }
 }

@@ -4,6 +4,7 @@
 
 * Added support for new push opt-in and tracking opt-in events
 * Added new extension config to set an alternative target shop number
+* Added new extension config to activate a debug mode that logs all events to the console
 
 ## 1.2.0 (September 17, 2019)
 

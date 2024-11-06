@@ -33,6 +33,15 @@
         "type": "text",
         "label": "An alternative target shop number for all tracking requests"
       }
+    },
+    "debugEnabled": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": false,
+      "params": {
+        "type": "checkbox",
+        "label": "Enables debug mode"
+      }
     }
   }
 }
