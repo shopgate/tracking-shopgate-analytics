@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.0 (November 6, 2024)
+
+* Added support for new push opt-in and tracking opt-in events
+* Added new extension config to set an alternative target shop number
+
 ## 1.2.0 (September 17, 2019)
 
 * Converted devDependencies to peerDependencies to improve compatibility to PWA 5.x and PWA 6.x

@@ -21,8 +21,17 @@
       "destination": "frontend",
       "default": null,
       "params": {
-        "type": "json",
+        "type": "text",
         "label": "The target stage for all tracking requests"
+      }
+    },
+    "overrideShopNumber": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": null,
+      "params": {
+        "type": "text",
+        "label": "An alternative target shop number for all tracking requests"
       }
     }
   }

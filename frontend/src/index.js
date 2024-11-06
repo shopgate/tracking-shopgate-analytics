@@ -16,7 +16,7 @@ export default function init(options) {
   const plugin = new Plugin({
     ...options,
     stage,
-    shopNumber,
+    shopNumber: config.overrideShopNumber || shopNumber,
     access: 'App',
   });
 

@@ -2,6 +2,21 @@
 import SgTrackingPlugin from '@shopgate/tracking-core/plugins/Base';
 import initSDK from './sdk';
 
+const SUPPORTED_OPT_IN_EVENTS = [
+  'softPushOptInShown',
+  'softPushOptInSelected',
+  'hardPushOptInShown',
+  'hardPushOptInSelected',
+
+  'softTrackingOptInShown',
+  'softTrackingOptInSelected',
+  'hardTrackingOptInShown',
+  'hardTrackingOptInSelected',
+
+  'softTrackingSettingsShown',
+  'softTrackingSettingsChanged',
+];
+
 /**
  * Tracking plugin to handle internal event tracking to the shopgate analytics sdk.
  */
@@ -175,6 +190,33 @@ class ShopgateAnalytics extends SgTrackingPlugin {
       }
 
       sgAnalytics('track', 'checkoutCompleted', sdkData);
+    });
+
+    this.register.customEvent((data, rawData, _, state) => {
+      const { eventName, ...eventData } = rawData?.additionalEventParams || {};
+
+      // Only track known custom events
+      if (!SUPPORTED_OPT_IN_EVENTS.includes(eventName)) {
+        return;
+      }
+
+      let sdkData = {
+        ...eventData,
+      };
+
+      if (state && state.settings && state.settings.shopSettings) {
+        const { stage, merchantCode } = state.settings.shopSettings;
+
+        sdkData = {
+          ...sdkData,
+          meta: {
+            stage,
+            merchantCode,
+          },
+        };
+      }
+
+      sgAnalytics('track', eventName, sdkData);
     });
   }
 }
