@@ -1,5 +1,5 @@
 {
-  "version": "1.2.2",
+  "version": "1.3.0-beta.1",
   "id": "@shopgate/tracking-shopgate-analytics",
   "components": [
     {
@@ -21,8 +21,26 @@
       "destination": "frontend",
       "default": null,
       "params": {
-        "type": "json",
+        "type": "text",
         "label": "The target stage for all tracking requests"
+      }
+    },
+    "overrideShopNumber": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": null,
+      "params": {
+        "type": "text",
+        "label": "An alternative target shop number for all tracking requests"
+      }
+    },
+    "debugEnabled": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": false,
+      "params": {
+        "type": "checkbox",
+        "label": "Enables debug mode"
       }
     }
   }

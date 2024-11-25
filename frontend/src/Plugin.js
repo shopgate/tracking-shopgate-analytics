@@ -1,6 +1,22 @@
 /* global sgAnalytics */
 import SgTrackingPlugin from '@shopgate/tracking-core/plugins/Base';
 import initSDK from './sdk';
+import { debugEnabled } from '../config';
+
+const SUPPORTED_OPT_IN_EVENTS = [
+  'softPushOptInShown',
+  'softPushOptInSelected',
+  'hardPushOptInShown',
+  'hardPushOptInSelected',
+
+  'softTrackingOptInShown',
+  'softTrackingOptInSelected',
+  'hardTrackingOptInShown',
+  'hardTrackingOptInSelected',
+
+  'softTrackingSettingsShown',
+  'softTrackingSettingsChanged',
+];
 
 /**
  * Tracking plugin to handle internal event tracking to the shopgate analytics sdk.
@@ -46,6 +62,23 @@ class ShopgateAnalytics extends SgTrackingPlugin {
 
     sgAnalytics('setConfig', this.config);
   }
+
+  /**
+   * Sends an event to shopgate analytics
+   * @param {string} eventName Event name
+   * @param {Object} eventPayload  Event payload
+   */
+  trackSgAnalyticsEvent = (eventName, eventPayload) => {
+    if (debugEnabled) {
+      console.log('%c SgAnalytics', 'color: #8e44ad', 'Event Sent', {
+        name: eventName,
+        payload: eventPayload,
+        config: this.config,
+      });
+    }
+
+    sgAnalytics('track', eventName, eventPayload);
+  };
 
   /**
    * Formats product data to the analytics format.
@@ -96,7 +129,7 @@ class ShopgateAnalytics extends SgTrackingPlugin {
         };
       }
 
-      sgAnalytics('track', 'pageViewed', sdkData);
+      this.trackSgAnalyticsEvent('pageViewed', sdkData);
     });
 
     this.register.addToCart((data, rawData, _, state) => {
@@ -119,7 +152,7 @@ class ShopgateAnalytics extends SgTrackingPlugin {
         };
       }
 
-      sgAnalytics('track', 'productAddedToCart', sdkData);
+      this.trackSgAnalyticsEvent('productAddedToCart', sdkData);
     });
 
     this.register.purchase((data, rawData, _, state) => {
@@ -174,7 +207,34 @@ class ShopgateAnalytics extends SgTrackingPlugin {
         };
       }
 
-      sgAnalytics('track', 'checkoutCompleted', sdkData);
+      this.trackSgAnalyticsEvent('checkoutCompleted', sdkData);
+    });
+
+    this.register.customEvent((data, rawData, _, state) => {
+      const { eventName, ...eventData } = rawData?.additionalEventParams || {};
+
+      // Only track known custom events
+      if (!SUPPORTED_OPT_IN_EVENTS.includes(eventName)) {
+        return;
+      }
+
+      let sdkData = {
+        ...eventData,
+      };
+
+      if (state && state.settings && state.settings.shopSettings) {
+        const { stage, merchantCode } = state.settings.shopSettings;
+
+        sdkData = {
+          ...sdkData,
+          meta: {
+            stage,
+            merchantCode,
+          },
+        };
+      }
+
+      this.trackSgAnalyticsEvent(eventName, sdkData);
     });
   }
 }
