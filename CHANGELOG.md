@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.3.0 (November 6, 2024)
+## 1.3.0 (January 7, 2025)
 
 * Added support for new push opt-in and tracking opt-in events
 * Added new extension config to set an alternative target shop number
