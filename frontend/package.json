@@ -1,6 +1,6 @@
 {
   "name": "@shopgate/tracking-shopgate-analytics",
-  "version": "1.2.2",
+  "version": "1.3.1",
   "description": "Tracking plugin for shopgate analytics",
   "main": "index.js",
   "devDependencies": {
@@ -15,10 +15,6 @@
     "babel-preset-env": "^1.6.0",
     "eslint": "^4.19.1",
     "jest": "^23.6.0"
-  },
-  "peerDependencies": {
-    "@shopgate/pwa-core": ">=5.4.1",
-    "@shopgate/tracking-core": ">=5.4.1"
   },
   "scripts": {
     "test": "jest",
